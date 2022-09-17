@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="never">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/index.css">
+    <script src="./jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <section>
+        <div class="box">
+            <ul class="box1">
+                <li>题材</li>
+                <!-- <li>全部</li> -->
+                <li>热血</li>
+                <li>古风</li>
+                <li>玄幻</li>
+                <li>奇幻</li>
+                <li>悬疑</li>
+            </ul>
+            <ul class="box2">
+                <li>地区</li>
+                <!-- <li>全部</li> -->
+                <li>大陆</li>
+                <li>日本</li>
+                <li>韩国</li>
+            </ul>
+            <ul class="box3">
+                <li>进度</li>
+                <!-- <li>全部</li> -->
+                <li>连载</li>
+                <li>完结</li>
+            </ul>
+        </div>
+        <div class="contantbox">
+        </div>
+    </section>
+    <!-- styleId 题材分类id number -1全部 999热血 997古风 1016玄幻 998奇幻 1023悬疑 1002都市 1096历史 1092武侠仙侠 1088游戏竞技 1081悬疑灵异 1063架空 1060青春
+    1054西幻 1048现代 1028正能量 1015科幻
+    areaId 地区分类id number -1全部 1大陆 2日本 6韩国 5其他
+    isFinish 进度分类 number -1全部 0连载 1完结
+    isFree 收费id number -1全部 1免费 2付费 3等就免费
+    order 排序 number 0人气推荐 1更新时间 2追漫人数 3上架时间
+    pageNum 页码 number 1 -->
+    <script>
+        $(function () {
+
+            var type = 0
+            var typeObj = {
+                '全部': -1,
+                '热血': 999,
+                '古风': 997,
+                '玄幻': 1016,
+                '奇幻': 998,
+                '悬疑': 1023,
+                '大陆': 1,
+                '日本': 2,
+                '韩国':6,
+                '连载': 0,
+                '完结': 1,
+            }
+            function index(a) {
+                var carousel = {
+                    box1: null,
+                    box2: null,
+                    box3: null,
+                    contantbox: null,
+                    styleId: 999,
+                    areaId: -1,
+                    isFinish: -1,
+                    isFree: -1,
+                    order: 0,
+                    pageNum: 1,
+                    // 轮播图中存放图片的列表
+                    init: function () {
+                        this.box1 = $('.box1');
+                        this.box2 = $('.box2');
+                        this.box3 = $('.box3');
+                        this.contant = $('.contantbox');
+                        var that = this
+                        this.box1.on('click', 'li', (function (e) {
+                            styleId = typeObj[$(this).text()]
+                            that.styleId = styleId
+                            console.log(styleId);
+                            $.get(
+                                'https://apis.netstart.cn/bcomic/ClassPage?styleId=' + styleId + '&areaId=' + that.areaId + '&isFinish=' + that.isFinish + '&order=' + that.order + '&pageNum=1&pageSize=39&isFree=' + that.isFree,
+                                function (data) {
+                                    console.log(data, data.data);
+                                    $('.contantbox').empty();
+                                    for (var i = 0; i < data.data.length; i++) {
+                                        if ((i + 1) % 5 == 0 && i != 0) {
+                                            $('<div class="rdiv" style="background-image:url(' + data.data[i].horizontal_cover + ')"></div>').appendTo('.contantbox')
+                                        } else {
+                                            $('<div style="background-image:url(' + data.data[i].horizontal_cover + ')"></div>').appendTo('.contantbox')
+                                        }
+                                    }
+                                }
+                            )
+                        }))
+                        this.box2.on('click', 'li', (function (e) {
+                            areaId = typeObj[$(this).text()]
+                            that.areaId = areaId
+                            console.log(areaId);
+                            $.get(
+                                'https://apis.netstart.cn/bcomic/ClassPage?styleId=' + that.styleId + '&areaId=' + areaId + '&isFinish=' + that.isFinish + '&order=' + that.order + '&pageNum=1&pageSize=39&isFree=' + that.isFree,
+                                function (data) {
+                                    console.log(data, data.data);
+                                    $('.contantbox').empty();
+                                    for (var i = 0; i < data.data.length; i++) {
+                                        if ((i + 1) % 5 == 0 && i != 0) {
+                                            $('<div class="rdiv" style="background-image:url(' + data.data[i].horizontal_cover + ')"></div>').appendTo('.contantbox')
+                                        } else {
+                                            $('<div style="background-image:url(' + data.data[i].horizontal_cover + ')"></div>').appendTo('.contantbox')
+                                        }
+                                    }
+                                }
+                            )
+                        }))
+                        this.box3.on('click', 'li', (function (e) {
+                            isFinish = typeObj[$(this).text()]
+                            that.isFinish = isFinish
+                            console.log(isFinish);
+                            $.get(
+                                'https://apis.netstart.cn/bcomic/ClassPage?styleId=' + that.styleId + '&areaId=' + that.areaId + '&isFinish=' + isFinish + '&order=' + that.order + '&pageNum=1&pageSize=39&isFree=' + that.isFree,
+                                // that.change(that.contant, that.data),
+                                function (data) {
+                                    console.log(data, data.data);
+                                    $('.contantbox').empty();
+                                    for (var i = 0; i < data.data.length; i++) {
+                                        if ((i + 1) % 5 == 0 && i != 0) {
+                                            $('<div class="rdiv" style="background-image:url(' + data.data[i].horizontal_cover + ')"></div>').appendTo('.contantbox')
+                                        } else {
+                                            $('<div style="background-image:url(' + data.data[i].horizontal_cover + ')"></div>').appendTo('.contantbox')
+                                        }
+                                    }
+                                }
+                            )
+                        }))
+                        $.get(
+                            'https://apis.netstart.cn/bcomic/ClassPage?styleId=' + that.styleId + '&areaId=' + that.areaId + '&isFinish=' + that.isFinish + '&order=' + that.order + '&pageNum=1&pageSize=39&isFree=' + that.isFree,
+                            function (data) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    if ((i + 1) % 5 == 0 && i != 0) {
+                                        $('<div class="rdiv" style="background-image:url(' + data.data[i].horizontal_cover + ')"></div>').appendTo('.contantbox')
+                                    } else {
+                                        $('<div style="background-image:url(' + data.data[i].horizontal_cover + ')"></div>').appendTo('.contantbox')
+                                    }
+                                }
+                            }
+                        )
+                    },
+                }
+                carousel.init()
+                return carousel
+            }
+            var index = index()
+        })
+
+    </script>
+</body>
+
+</html>

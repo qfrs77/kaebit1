@@ -1,0 +1,49 @@
+section {
+    width: 1000px;
+    margin: 0 auto;
+}
+
+ul {
+    display: flex;
+    list-style: none;
+}
+li {
+    padding: 2px 5px;
+    margin: 5px;
+}
+ul>li:first-child{
+    pointer-events: none;
+}
+li:hover {
+    cursor: pointer
+}
+.navControl {
+    padding: 10px;
+    width: 1200px;
+    margin: 0 auto;
+    margin-top: 20px;
+    font-size: 15px;
+}
+.navControl .nav {
+    display: flex;
+    align-items: center;
+}
+.navControl .nav .navLeft {
+    color: rgb(145, 145, 145);
+}
+
+.contantbox {
+    width: 1000px;
+    height: auto;
+}
+.contantbox>div{
+    width: 180px;
+    height: 240px;
+    margin: 0 20px 20px 0;
+    background-size: 100% 100%;
+    background-position: 0 0;
+    float: left;
+}
+.contantbox>.rdiv{
+    margin-right: 0;
+}
